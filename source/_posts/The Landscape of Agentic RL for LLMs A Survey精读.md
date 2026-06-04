@@ -15,7 +15,6 @@ tags:
 - 会议/期刊：**TMLR**（Transactions on Machine Learning Research）
 - 年份：2025年
 - 文章链接：https://doi.org/10.48550/arXiv.2509.02547
-- 汇总仓库链接：https://github.com/xhyumiracle/Awesome-AgenticLLM-RL-Papers，https://huggingface.co/papers/2509.02547
 - 参考博客：https://hub.baai.ac.cn/view/49404
 
 ## 研究问题
@@ -60,12 +59,14 @@ tags:
    - 视觉 / 具身智能体（robotics）
    - 多智能体协作 / 博弈场景 等。
 
-## 实验结论
+## 论文中一些表格速查
 
-作为 Survey 论文，本文未进行新实验，而是对已有大量工作进行了分类归纳：
 - **算法对比 (Table 2)**：对比了 PPO、DPO、GRPO 等数十种在大模型对齐与 Agent 训练中的变体，总结了其目标函数、KL惩罚和奖励粒度（Token-level / Step-wise / Trajectory-level）。
 - **能力建模对比 (Table 3等)**：整理了各种记忆管理模型、工具学习策略和规划优化方法的优劣与适用场景。
-- **环境基准整理 (Section 5)**：汇总了开源的实验环境（如 WebArena、OSWorld、SWE-bench 等）与当前的主流强化学习训练框架，指明了当下评估 Agentic RL 的基础设施。
+- **环境基准整理 (Section 5)**：
+  - https://github.com/xhyumiracle/Awesome-AgenticLLM-RL-Papers
+  - https://huggingface.co/papers/2509.02547
+
 
 ## 值得借鉴的点
 
