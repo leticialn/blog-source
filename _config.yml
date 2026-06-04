@@ -102,9 +102,8 @@ theme: InkSerenity
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo:
-    github: git@github.com:leticialn/leticialn.github.io.git,main
-    gitee: git@gitee.com:leti_cia/leti_cia.git,master # 如果你的 Gitee 用户名是 leti_cia，请创建同名仓库，此处分支为 master
+  repo: git@github.com:leticialn/leticialn.github.io.git
+  branch: main
 
 # Commenting System (Utterances)
 utterances:

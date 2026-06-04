@@ -59,10 +59,31 @@ tags:
    - 视觉 / 具身智能体（robotics）
    - 多智能体协作 / 博弈场景 等。
 
-## 论文中一些表格速查
+## 论文中一些表格简化速查
 
 - **算法对比 (Table 2)**：对比了 PPO、DPO、GRPO 等数十种在大模型对齐与 Agent 训练中的变体，总结了其目标函数、KL惩罚和奖励粒度（Token-level / Step-wise / Trajectory-level）。
+
+| 维度            | PPO 系（含 RLHF-PPO）mimuw+1                | DPO 系（含 IPO 等）huggingface+1   | GRPO 系（含 Step-GRPO）mimuw+2               |
+| :-------------- | :------------------------------------------ | :--------------------------------- | :------------------------------------------- |
+| 核心信号类型    | 显式 reward：环境 / reward model 分数       | 偏好对：只知道 A 比 B 好           | 显式 reward，但只用 group 内相对好坏         |
+| 优化目标类型    | 策略梯度 + clipped surrogate                | 偏好优化，直接对策略分布施压       | 策略梯度 + group 相对 advantage              |
+| 是否需要 critic | 需要 value/critic（actor–critic）           | 不需要 critic                      | 不需要 critic，用组内平均/排序当 baseline    |
+| 是否用 clip     | 有 PPO 样式 clip（约束策略 ratio）          | 无 clip，主要靠 KL 约束参考模型    | 通常可带 clip，重点是 group 标准化           |
+| 是否用 KL 约束  | 常用 KL regularization/early stop           | 明确有 KL（对 reference 模型）     | 可选 KL，一般不是核心                        |
+| 奖励粒度        | 支持 step / episode 级 reward               | 通常是 trajectory/response 级偏好  | 可做 episode 或 step 级（Step-GRPO 等）      |
+| 数据采样方式    | 偏向在线 / 近在线 RL                        | 偏向离线偏好数据（可配合少量在线） | 可离线（多候选打分）也可半在线               |
+| 算法复杂度      | 高：要训练 actor + critic                   | 中：只优化 policy，无 critic       | 中：实现简单但要采样多个候选                 |
+| 典型用途        | RLHF、环境型 RL（游戏、GUI、机器人）        | 风格/安全对齐，过程偏好对齐        | 数学、代码、推理，Agentic 任务中的多候选选择 |
+| Agentic RL 优势 | 能利用真实 step reward 做 long-horizon 学习 | 用偏好监督轨迹质量，适合过程对齐   | 非常适合“多解可自动打分”的 Agentic 任务      |
+
 - **能力建模对比 (Table 3等)**：整理了各种记忆管理模型、工具学习策略和规划优化方法的优劣与适用场景。
+
+| 记忆类别              | 存储形式（Representation）                              | 典型操作（Write / Manage / Read）                            | RL 目前主要介入点                                            | 优点/适用场景                         | 主要不足 / 未来机会                                          |
+| :-------------------- | :------------------------------------------------------ | :----------------------------------------------------------- | :----------------------------------------------------------- | :------------------------------------ | :----------------------------------------------------------- |
+| RAG-style 记忆        | 向量库、文档库、知识库；embedding + 检索                | Write：写入新文档/片段  Manage：简单去重、容量限制  Read：相似度检索、kNN | 少数工作用 RL 学“何时检索、检索多少、如何构造查询”arxiv+2    | 实现最成熟，易接入现有 LLM 系统       | 写/管几乎全靠 heuristic，结构粗糙；RL 管理空间大arxiv+1      |
+| Token-level 记忆      | 自然语言 token（显式笔记、总结）或 latent memory tokens | Write：何时生成记忆 token  Manage：保留/覆盖/压缩  Read：选哪些 token 注入上下文 | 多篇工作用 RL 决定“记不记、记多少、忘哪些”，有些还学 latent token 更新策略arxiv+2 | 贴近上下文窗口，易与现有 LLM 架构结合 | 动作空间仍较粗，长时序 credit 分配尚不成熟                   |
+| 结构化记忆（图/层级） | 知识图、时间图、层级摘要树、笔记网络等结构化表示        | Write：增节点  Manage：建/改边、合并、抽象、删除  Read：图检索、子图选取 | 大部分工作仍是 heuristic；RL 管“图演化策略”目前几乎空白，被视为重要前景方向arxiv+2 | 表达能力强，适合长期、多任务知识组织  | 设计和训练复杂，是 Agentic RL + Memory 的高价值未开发区域arxiv+1 |
+
 - **环境基准整理 (Section 5)**：
   - https://github.com/xhyumiracle/Awesome-AgenticLLM-RL-Papers
   - https://huggingface.co/papers/2509.02547
