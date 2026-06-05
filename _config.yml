@@ -111,3 +111,7 @@ utterances:
   issue_term: "pathname"
   theme: "github-light"
 
+# Markdown 渲染器（hexo-renderer-markdown-it + KaTeX 公式支持）
+markdown:
+  plugins:
+    - markdown-it-katex
