@@ -111,7 +111,13 @@ utterances:
   issue_term: "pathname"
   theme: "github-light"
 
-# Markdown 渲染器（hexo-renderer-markdown-it + KaTeX 公式支持）
-markdown:
-  plugins:
-    - markdown-it-katex
+# 数学公式渲染（hexo-filter-mathjax）
+# 支持 $...$ 行内公式和 $$...$$ 块级公式
+mathjax:
+  tags: none          # 不使用自动编号
+  single_dollars: true # 启用 $...$ 行内公式语法
+  cjk_width: 0.9       # CJK 字符宽度
+  normal_width: 0.6    # 普通字符宽度
+  append_css: true     # 自动追加 CSS
+  every_page: true     # 所有页面都启用公式渲染
+
