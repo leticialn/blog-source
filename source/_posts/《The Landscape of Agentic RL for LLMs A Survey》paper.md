@@ -39,8 +39,6 @@ tags:
 
     奖励函数：既有任务终点稀疏奖励，也有每步子奖励，目标是最大化折扣累计回报 $J_{agent}(\theta)=\mathbb{E}_\tau[\sum_t \gamma^t R_{agent}(s_t,a_t)]$。
 
-  - 算法支撑：探讨了 REINFORCE、PPO、DPO、GRPO 等算法在 Agentic 场景下的适配与变体。
-
 - 能力维度分类
 
   - 规划（Planning）：RL 用作外部向导微调价值/启发式函数指导搜索树（如MCTS），或者直接作为内部驱动以端到端方式微调LLM本身的规划策略。
