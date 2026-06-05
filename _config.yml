@@ -111,3 +111,12 @@ utterances:
   issue_term: "pathname"
   theme: "github-light"
 
+# Math Formula (hexo-math + KaTeX)
+# 兼容 Typora 的 $...$（行内）和 $$...$$（块级）公式语法
+math:
+  engine: katex
+  katex:
+    css: true           # 自动注入 KaTeX CSS
+    js: false           # KaTeX 是服务端渲染，无需客户端 JS
+    mhchem: false
+

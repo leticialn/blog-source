@@ -25,30 +25,31 @@ jobs:
       - name: ⚙️ 配置 Node.js 环境
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '22'
 
       - name: 📥 安装依赖
         run: npm install
 
-      - name: 🔑 配置 SSH 部署密钥与 git 信息
+      - name: ⚙️ 配置 git 信息（用于 hexo deploy）
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
 
       - name: 🏗️ 编译 Hexo 博客
         run: npx hexo clean && npx hexo generate
 
-      - name: 🚀 部署到 GitHub Pages
-        run: npx hexo deploy
+      - name: 🚀 部署到 GitHub Pages（通过 PAT 认证）
+        run: |
+          # 用 PAT 替换 SSH 地址，确保 Actions 环境有权限推送
+          sed -i "s|git@github.com:leticialn/leticialn.github.io.git|https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/leticialn/leticialn.github.io.git|g" _config.yml
+          npx hexo deploy
 
-      - name: 📋 更新 README（同步 LIST.md）
+      - name: 📋 更新 README（同步 LIST.md 到 blog-source）
         run: |
           cp LIST.md README.md
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git remote set-url origin "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/leticialn/blog-source.git"
           git add README.md LIST.md
           git diff --staged --quiet || git commit -m "🤖 Auto-update: LIST.md & README.md ($(date '+%Y-%m-%d %H:%M'))"
           git push origin main
