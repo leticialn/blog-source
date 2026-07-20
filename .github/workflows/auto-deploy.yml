@@ -30,22 +30,31 @@ jobs:
       - name: 📥 安装依赖
         run: npm install
 
-      - name: 🔑 配置 Git 全局身份与 PAT 凭证替换
+      - name: ⚙️ 配置 Git 全局身份
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions@github.com"
-          git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf "git@github.com:"
-          git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf "https://github.com/"
 
       - name: 🏗️ 编译 Hexo 博客
         run: npx hexo clean && npx hexo generate
 
       - name: 🚀 部署到 GitHub Pages
-        run: npx hexo deploy
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::未检测到 GH_TOKEN 秘钥！请前往 blog-source 仓库的 Settings -> Secrets and variables -> Actions 页面，添加名为 GH_TOKEN 的 Repository Secret。"
+            exit 1
+          fi
+          sed -i "s|git@github.com:leticialn/leticialn.github.io.git|https://${GH_TOKEN}@github.com/leticialn/leticialn.github.io.git|g" _config.yml
+          npx hexo deploy
 
       - name: 📋 更新 README（同步 LIST.md 到 blog-source）
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cp LIST.md README.md
+          git remote set-url origin "https://${GH_TOKEN}@github.com/leticialn/blog-source.git"
           git add README.md LIST.md
           git diff --staged --quiet || git commit -m "🤖 Auto-update: LIST.md & README.md ($(date '+%Y-%m-%d %H:%M'))"
           git push origin main
