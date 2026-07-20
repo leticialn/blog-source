@@ -15,13 +15,13 @@ jobs:
       - name: 📦 检出博客源码
         uses: actions/checkout@v4
         with:
-          submodules: false
           fetch-depth: 0
-          persist-credentials: false
 
-      - name: 📦 检出主题（InkSerenity）
+      - name: 📦 检出主题并覆盖自定义样式
         run: |
           git clone https://github.com/tandc181123/hexo-theme-InkSerenity.git themes/InkSerenity
+          cp theme-custom/style.css themes/InkSerenity/source/css/style.css
+          cp theme-custom/head.ejs themes/InkSerenity/layout/_partial/head.ejs
 
       - name: ⚙️ 配置 Node.js 环境
         uses: actions/setup-node@v4
@@ -44,7 +44,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           if [ -z "$GH_TOKEN" ]; then
-            echo "::error::未检测到 GH_TOKEN 秘钥！请前往 blog-source 仓库的 Settings -> Secrets and variables -> Actions 页面，添加名为 GH_TOKEN 的 Repository Secret。"
+            echo "::error::未检测到 GH_TOKEN 秘钥！"
             exit 1
           fi
           sed -i "s|git@github.com:leticialn/leticialn.github.io.git|https://${GH_TOKEN}@github.com/leticialn/leticialn.github.io.git|g" _config.yml
@@ -55,7 +55,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cp LIST.md README.md
-          git config --local --unset-all http.https://github.com/.extraheader || true
           git remote set-url origin "https://${GH_TOKEN}@github.com/leticialn/blog-source.git"
           git add README.md LIST.md
           git diff --staged --quiet || git commit -m "🤖 Auto-update: LIST.md & README.md ($(date '+%Y-%m-%d %H:%M'))"

@@ -1,0 +1,236 @@
+/* source/css/style.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* card */
+
+.card {
+    background-color: rgba(200, 200, 200, 0.1);
+}
+
+/* fonts */
+
+body {
+    font-family: 'LXGW WenKai TC', 'STFangsong', '华文仿宋', '仿宋', 'FangSong', '仿宋_GB2312', 'Merriweather', serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.index-cat-link {
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.read-more {
+    text-align: right;
+}
+
+.read-more a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.read-more a:hover {
+    color: #333;
+}
+
+.cat-link {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.tag-link {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* radius */
+
+.top-radius {
+    border-radius: 20px 20px 0 0;
+}
+
+.bottom-radius {
+    border-radius: 0 0 20px 20px;
+}
+
+/* other */
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+footer p {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+footer p:hover {
+    color: #ffcc00;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* nav */
+nav a.nav-link {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+nav a.nav-link.active {
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+nav a.nav-link:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+/* image */
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.5rem 0;
+}
+
+/* code block */
+
+figure.highlight {
+    background-color: #333;
+    color: #d8dee9;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.code pre {
+    margin-bottom: 0;
+}
+
+/* blockquote */
+blockquote {
+    padding: 10px;
+    margin: 20px 0;
+    border-left: 5px solid #ccc;
+    background-color: rgba(0, 0, 0, 0.05);
+    font-style: italic;
+}
+
+blockquote p {
+    margin-bottom: 0;
+}
+
+/* hr */
+
+hr {
+    border-top: 1px solid #aaa;
+}
+
+/* ul li */
+
+ul li {
+    margin-bottom: 10px;
+}
+
+/* hamburger menu */
+
+.navbar-toggler {
+    margin-left: 20px;
+}
+
+.navbar-collapse {
+    margin-left: 20px;
+}
+
+/* responsive */
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+}
+
+/* table styling — 使用高特异性选择器覆盖 Bootstrap */
+.card-text table,
+.card table,
+article table,
+table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    table-layout: auto;
+}
+
+.card-text table th,
+.card-text table td,
+article table th,
+article table td,
+table th,
+table td {
+    border: 1px solid #ccc !important;
+    padding: 12px 15px !important;
+    text-align: left;
+    word-break: break-word;
+}
+
+.card-text table th,
+article table th,
+table th {
+    background-color: rgba(200, 200, 200, 0.2) !important;
+    font-weight: bold;
+}
+
+.card-text table tr:nth-child(even),
+article table tr:nth-child(even),
+table tr:nth-child(even) {
+    background-color: rgba(200, 200, 200, 0.08);
+}
+
+/* KaTeX 公式样式 */
+
+/* 块级公式居中 */
+.katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+    margin: 1rem 0;
+}
+
+/* 行内公式垂直对齐 */
+.katex {
+    font-size: 1.05em;
+}
+
+/* 防止公式溢出容器 */
+.card-text .katex-display > .katex {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* 加粗文字样式修正（确保中文加粗正确显示） */
+strong, b {
+    font-weight: 700;
+}
