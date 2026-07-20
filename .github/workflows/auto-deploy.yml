@@ -55,7 +55,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           cp LIST.md README.md
+          # 清除 actions/checkout 注入的 github-actions[bot] 凭证，否则会覆盖 PAT 导致 403
+          git config --local --unset-all http.https://github.com/.extraheader
           git remote set-url origin "https://${GH_TOKEN}@github.com/leticialn/blog-source.git"
           git add README.md LIST.md
           git diff --staged --quiet || git commit -m "🤖 Auto-update: LIST.md & README.md ($(date '+%Y-%m-%d %H:%M'))"
           git push origin HEAD:main
+
